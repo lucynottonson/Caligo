@@ -37,9 +37,10 @@ export default function ClientLogin() {
       } else {
         router.push('/first');
       }
-    } catch (err: any) {
-      console.error('Auth error:', err);
-      setError(err.message);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
+      console.error('Auth error:', errorMessage);
+      setError(errorMessage);
     }
     setLoading(false);
   };
