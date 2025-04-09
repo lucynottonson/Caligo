@@ -8,8 +8,8 @@ import Image from 'next/image';
 export default function ProfilePage() {
   const [username, setUsername] = useState('');
   const [bio, setBio] = useState('');
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null); 
+  const [loading, setLoading] = useState(true); 
   const router = useRouter();
 
   useEffect(() => {
@@ -25,10 +25,11 @@ export default function ProfilePage() {
 
       const user = userData.user; 
 
+      // Fetch the profile data from Supabase
       const { data: profileData, error: profileError } = await supabase
         .from('profiles')
         .select('username, bio, avatar_url')
-        .eq('id', user.id) 
+        .eq('id', user.id)
         .single();
 
       if (profileError) {
@@ -37,7 +38,6 @@ export default function ProfilePage() {
         return;
       }
 
-      // Set the fetched data in the state
       setUsername(profileData?.username || '');
       setBio(profileData?.bio || '');
       setAvatarUrl(profileData?.avatar_url || null); 
@@ -55,13 +55,14 @@ export default function ProfilePage() {
       reader.onloadend = async () => {
         setAvatarUrl(reader.result as string); 
 
+        // Get the current user
         const { data: userData, error: userError } = await supabase.auth.getUser();
         if (userError || !userData) {
           console.error('User not found or error:', userError);
           return;
         }
 
-        const user = userData.user;
+        const user = userData.user; 
         const fileExt = selectedFile.name.split('.').pop();
         const filePath = `public/${user.id}/profile.${fileExt}`;
 
@@ -74,19 +75,16 @@ export default function ProfilePage() {
           return;
         }
 
-        const { data, error: publicUrlError } = supabase.storage
-          .from('profile-photos')
-          .getPublicUrl(filePath);
+        const { data } = supabase.storage.from('profile-photos').getPublicUrl(filePath);
 
-        if (publicUrlError) {
-          console.error('Error fetching public URL:', publicUrlError);
+        if (!data) {
+          console.error('Error fetching public URL: File not found');
           return;
         }
 
-        // Set the URL to the avatarUrl state
         setAvatarUrl(data.publicUrl);
       };
-      reader.readAsDataURL(selectedFile);
+      reader.readAsDataURL(selectedFile); 
     }
   };
 
@@ -98,7 +96,7 @@ export default function ProfilePage() {
       return;
     }
 
-    const user = userData.user;
+    const user = userData.user; 
 
     const { error: updateError } = await supabase
       .from('profiles')
