@@ -9,7 +9,7 @@ export default function ProfilePage() {
   const [bio, setBio] = useState('');
   const [profilePhoto, setProfilePhoto] = useState<File | null>(null);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null); 
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
@@ -27,7 +27,6 @@ export default function ProfilePage() {
         return;
       }
 
-      // Fetch the profile data from Supabase
       const { data: profileData, error: profileError } = await supabase
         .from('profiles')
         .select('username, bio, avatar_url')
@@ -43,12 +42,12 @@ export default function ProfilePage() {
       // Set the fetched data in the state
       setUsername(profileData?.username || '');
       setBio(profileData?.bio || '');
-      setAvatarUrl(profileData?.avatar_url || null);
+      setAvatarUrl(profileData?.avatar_url || null); 
       setLoading(false); 
     };
 
     fetchUserProfile();
-  }, []);
+  }, []); 
 
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -104,7 +103,6 @@ export default function ProfilePage() {
     }
   };
 
- // spin
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -118,7 +116,16 @@ export default function ProfilePage() {
           <input type="file" accept="image/*" onChange={handlePhotoChange} />
         </label>
         {profilePhoto && <p>Selected: {profilePhoto.name}</p>}
-        {avatarUrl && !profilePhoto && <p>Current Profile Photo: <img src={avatarUrl} alt="Current Profile" style={{ width: '100px' }} /></p>}
+        {avatarUrl && !profilePhoto && (
+          <div>
+            <p>Current Profile Photo:</p>
+            <img
+              src={avatarUrl}
+              alt="Current Profile"
+              style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+            />
+          </div>
+        )}
       </div>
       <div style={{ marginBottom: '1rem' }}>
         <label>
