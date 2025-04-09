@@ -9,12 +9,12 @@ export default function ProfilePage() {
   const [bio, setBio] = useState('');
   const [profilePhoto, setProfilePhoto] = useState<File | null>(null);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null); 
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true); // loading
   const router = useRouter();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-      setLoading(true); 
+      setLoading(true); // for loading also
 
       const {
         data: { user },
@@ -27,7 +27,7 @@ export default function ProfilePage() {
         return;
       }
 
-      // Fetch the profile data from Supabase
+     // get profile data from supabase 
       const { data: profileData, error: profileError } = await supabase
         .from('profiles')
         .select('username, bio, avatar_url')
@@ -40,10 +40,10 @@ export default function ProfilePage() {
         return;
       }
 
-      // Set the fetched data in the state
+      console.log('Fetched Avatar URL:', profileData?.avatar_url); 
       setUsername(profileData?.username || '');
       setBio(profileData?.bio || '');
-      setAvatarUrl(profileData?.avatar_url || null); 
+      setAvatarUrl(profileData?.avatar_url || null);
       setLoading(false); 
     };
 
@@ -73,18 +73,26 @@ export default function ProfilePage() {
       const fileExt = profilePhoto.name.split('.').pop();
       const filePath = `public/${user.id}/profile.${fileExt}`;
 
+      // Upload the file to Supabase storage
       const { error: uploadError } = await supabase.storage
-        .from('profile-photos')
+        .from('profile-photos') 
         .upload(filePath, profilePhoto, { upsert: true });
 
       if (uploadError) {
         console.error('Upload error:', uploadError);
-      } else {
-        const { data } = supabase.storage
-          .from('profile-photos')
-          .getPublicUrl(filePath);
-        photoUrl = data.publicUrl;
+        return;
       }
+
+      const { data, error: publicUrlError } = supabase.storage
+        .from('profile-photos')
+        .getPublicUrl(filePath);
+
+      if (publicUrlError) {
+        console.error('Error fetching public URL:', publicUrlError);
+        return;
+      }
+
+      photoUrl = data.publicUrl;
     }
 
     const { error: updateError } = await supabase
@@ -93,7 +101,7 @@ export default function ProfilePage() {
         id: user.id,
         username,
         bio,
-        avatar_url: photoUrl,
+        avatar_url: photoUrl, 
       });
 
     if (updateError) {
@@ -162,8 +170,8 @@ export default function ProfilePage() {
         </label>
       </div>
       <div style={{ display: 'flex', gap: '1rem' }}>
-        <button onClick={handleSave}>Save Profile</button>
-        <button onClick={() => router.push('/first')}>Cancel</button>
+        <button onClick={handleSave}>KEEP DAT</button>
+        <button onClick={() => router.push('/first')}>NEVER MIND.</button>
       </div>
     </div>
   );
