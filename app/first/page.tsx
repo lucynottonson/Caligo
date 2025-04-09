@@ -35,6 +35,7 @@ export default function FirstPage() {
         <a href="/first">Home</a>
         <a href="/profile">Profile</a>
         <a href="/settings">Settings</a>
+        <a href="/users">Friends</a>
         <button onClick={async () => {
           await supabase.auth.signOut();
           router.replace('/');
