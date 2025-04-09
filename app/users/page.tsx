@@ -65,7 +65,7 @@ export default function UsersPage() {
                   alt={user.username}
                   width={100}  
                   height={100}
-                  style={styles.avatar}
+                  style={{ ...styles.avatar, objectFit: 'cover' }} 
                 />
               ) : (
                 <div style={styles.avatarFallback}>{user.username[0]}</div>
