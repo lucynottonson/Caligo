@@ -27,7 +27,6 @@ export default function ProfilePage() {
         return;
       }
 
-      // Fetch the profile data from Supabase
       const { data: profileData, error: profileError } = await supabase
         .from('profiles')
         .select('username, bio, avatar_url')
@@ -40,53 +39,41 @@ export default function ProfilePage() {
         return;
       }
 
-      console.log('Fetched Avatar URL:', profileData?.avatar_url);
-
       // Set the fetched data in the state
       setUsername(profileData?.username || '');
       setBio(profileData?.bio || '');
-      setAvatarUrl(profileData?.avatar_url || null);
+      setAvatarUrl(profileData?.avatar_url || null); 
       setLoading(false); 
     };
 
     fetchUserProfile();
   }, []); 
 
-  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const selectedFile = e.target.files[0];
       setProfilePhoto(selectedFile);
 
-      // Immediately set the new avatar image for the UI preview
       const reader = new FileReader();
       reader.onloadend = () => {
         setAvatarUrl(reader.result as string); 
       };
-      reader.readAsDataURL(selectedFile);
-    }
-  };
+      reader.readAsDataURL(selectedFile); 
 
-  const handleSave = async () => {
-    const {
-      data: { user },
-      error: userError,
-    } = await supabase.auth.getUser();
+      // Upload the file to Supabase storage and get the public URL
+      const { data: userData, error: userError } = await supabase.auth.getUser();
+      if (userError || !userData) {
+        console.error('User not found or error:', userError);
+        return;
+      }
 
-    if (userError || !user) {
-      console.error('User not found or error:', userError);
-      return;
-    }
-
-    let photoUrl = avatarUrl; 
-
-    if (profilePhoto) {
-      const fileExt = profilePhoto.name.split('.').pop();
-      const filePath = `public/${user.id}/profile.${fileExt}`;
+      const fileExt = selectedFile.name.split('.').pop();
+      const filePath = `public/${userData.id}/profile.${fileExt}`;
 
       // Upload the file to Supabase storage
       const { error: uploadError } = await supabase.storage
         .from('profile-photos') 
-        .upload(filePath, profilePhoto, { upsert: true });
+        .upload(filePath, selectedFile, { upsert: true });
 
       if (uploadError) {
         console.error('Upload error:', uploadError);
@@ -102,7 +89,19 @@ export default function ProfilePage() {
         return;
       }
 
-      photoUrl = data.publicUrl;
+      setAvatarUrl(data.publicUrl);
+    }
+  };
+
+  const handleSave = async () => {
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+
+    if (userError || !user) {
+      console.error('User not found or error:', userError);
+      return;
     }
 
     const { error: updateError } = await supabase
@@ -111,7 +110,7 @@ export default function ProfilePage() {
         id: user.id,
         username,
         bio,
-        avatar_url: photoUrl, 
+        avatar_url: avatarUrl, 
       });
 
     if (updateError) {
@@ -180,8 +179,8 @@ export default function ProfilePage() {
         </label>
       </div>
       <div style={{ display: 'flex', gap: '1rem' }}>
-        <button onClick={handleSave}>SAVE DAT</button>
-        <button onClick={() => router.push('/first')}>NO SAVE DAT</button>
+        <button onClick={handleSave}>Save</button>
+        <button onClick={() => router.push('/first')}>NO SAVE</button>
       </div>
     </div>
   );
