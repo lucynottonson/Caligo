@@ -7,7 +7,6 @@ import { useRouter } from 'next/navigation';
 export default function ProfilePage() {
   const [username, setUsername] = useState('');
   const [bio, setBio] = useState('');
-  const [profilePhoto, setProfilePhoto] = useState<File | null>(null);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null); 
   const [loading, setLoading] = useState(true); 
   const router = useRouter();
