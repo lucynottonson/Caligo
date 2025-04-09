@@ -49,12 +49,12 @@ export default function UsersPage() {
   };
 
   if (loading) {
-    return <div>Loading users...</div>;
+    return <div>Loading friends...</div>;
   }
 
   return (
     <div>
-      <h1>User Profiles</h1>
+      <h1>Friends</h1>
       <div style={styles.grid}>
         {users.map((user) => (
           <div key={user.id} style={styles.card}>
@@ -95,7 +95,7 @@ const styles = {
     padding: '15px',
     borderRadius: '8px',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    textAlign: 'center', 
+    textAlign: 'center' as const,
   },
   avatarWrapper: {
     width: '100px',
