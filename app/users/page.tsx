@@ -81,44 +81,44 @@ export default function UsersPage() {
 }
 
 const styles = {
-  grid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-    gap: '20px',
-    marginTop: '20px',
-  },
-  card: {
-    background: '#fff',
-    padding: '15px',
-    borderRadius: '8px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    textAlign: 'center',
-  },
-  avatarWrapper: {
-    width: '100px',
-    height: '100px',
-    borderRadius: '50%',
-    overflow: 'hidden',
-    margin: '0 auto',
-    marginBottom: '10px',
-    backgroundColor: '#f0f0f0',
-  },
-  avatar: {
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover',
-  },
-  avatarFallback: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: '#ccc',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: '2rem',
-    color: '#fff',
-  },
-  userInfo: {
-    paddingTop: '10px',
-  },
-};
+    grid: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+      gap: '20px',
+      marginTop: '20px',
+    },
+    card: {
+      background: '#fff',
+      padding: '15px',
+      borderRadius: '8px',
+      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+      textAlign: 'center' as 'center', // Explicitly define textAlign type
+    },
+    avatarWrapper: {
+      width: '100px',
+      height: '100px',
+      borderRadius: '50%',
+      overflow: 'hidden',
+      margin: '0 auto',
+      marginBottom: '10px',
+      backgroundColor: '#f0f0f0',
+    },
+    avatar: {
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover',
+    },
+    avatarFallback: {
+      width: '100%',
+      height: '100%',
+      backgroundColor: '#ccc',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontSize: '2rem',
+      color: '#fff',
+    },
+    userInfo: {
+      paddingTop: '10px',
+    },
+  };
