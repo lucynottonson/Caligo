@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export default function ProfilePage() {
   const [username, setUsername] = useState('');
@@ -38,7 +39,6 @@ export default function ProfilePage() {
         return;
       }
 
-      // Set the fetched data in the state
       setUsername(profileData?.username || '');
       setBio(profileData?.bio || '');
       setAvatarUrl(profileData?.avatar_url || null); 
@@ -51,44 +51,42 @@ export default function ProfilePage() {
   const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const selectedFile = e.target.files[0];
-      setProfilePhoto(selectedFile);
 
       const reader = new FileReader();
-      reader.onloadend = () => {
+      reader.onloadend = async () => {
         setAvatarUrl(reader.result as string); 
+
+        // Get the current user
+        const { data: userData, error: userError } = await supabase.auth.getUser();
+        if (userError || !userData) {
+          console.error('User not found or error:', userError);
+          return;
+        }
+
+        const fileExt = selectedFile.name.split('.').pop();
+        const filePath = `public/${userData.id}/profile.${fileExt}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('profile-photos') // Upload to the 'profile-photos' bucket
+          .upload(filePath, selectedFile, { upsert: true });
+
+        if (uploadError) {
+          console.error('Upload error:', uploadError);
+          return;
+        }
+
+        const { data, error: publicUrlError } = supabase.storage
+          .from('profile-photos')
+          .getPublicUrl(filePath);
+
+        if (publicUrlError) {
+          console.error('Error fetching public URL:', publicUrlError);
+          return;
+        }
+
+        setAvatarUrl(data.publicUrl);
       };
-      reader.readAsDataURL(selectedFile); 
-
-      // Upload the file to Supabase storage and get the public URL
-      const { data: userData, error: userError } = await supabase.auth.getUser();
-      if (userError || !userData) {
-        console.error('User not found or error:', userError);
-        return;
-      }
-
-      const fileExt = selectedFile.name.split('.').pop();
-      const filePath = `public/${userData.id}/profile.${fileExt}`;
-
-      // Upload the file to Supabase storage
-      const { error: uploadError } = await supabase.storage
-        .from('profile-photos') 
-        .upload(filePath, selectedFile, { upsert: true });
-
-      if (uploadError) {
-        console.error('Upload error:', uploadError);
-        return;
-      }
-
-      const { data, error: publicUrlError } = supabase.storage
-        .from('profile-photos')
-        .getPublicUrl(filePath);
-
-      if (publicUrlError) {
-        console.error('Error fetching public URL:', publicUrlError);
-        return;
-      }
-
-      setAvatarUrl(data.publicUrl);
+      reader.readAsDataURL(selectedFile);
     }
   };
 
@@ -109,7 +107,7 @@ export default function ProfilePage() {
         id: user.id,
         username,
         bio,
-        avatar_url: avatarUrl, 
+        avatar_url: avatarUrl, // Store the avatar_url here
       });
 
     if (updateError) {
@@ -128,12 +126,12 @@ export default function ProfilePage() {
     <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
       <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
         {avatarUrl ? (
-          <img
+          <Image
             src={avatarUrl}
             alt="Profile"
+            width={200}
+            height={200}
             style={{
-              width: '200px',
-              height: '200px',
               borderRadius: '50%',
               objectFit: 'cover',
               marginBottom: '1rem',
@@ -178,7 +176,7 @@ export default function ProfilePage() {
         </label>
       </div>
       <div style={{ display: 'flex', gap: '1rem' }}>
-        <button onClick={handleSave}>Save</button>
+        <button onClick={handleSave}>SAVE</button>
         <button onClick={() => router.push('/first')}>NO SAVE</button>
       </div>
     </div>
