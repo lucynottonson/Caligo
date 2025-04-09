@@ -1,6 +1,6 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
-  
+import { redirect } from 'next/navigation'; 
 import ClientLogin from '@/components/ClientLogin';
 
 export default async function LoginPage() {
