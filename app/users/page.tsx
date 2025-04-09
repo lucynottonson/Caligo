@@ -74,7 +74,7 @@ export default function UsersPage() {
             <div style={styles.userInfo}>
               <h3>{user.username}</h3>
               <p>{user.bio}</p>
-              <p>Joined {timeAgo(user.created_at)}</p>
+              <p>{timeAgo(user.created_at)}</p>
             </div>
           </div>
         ))}
