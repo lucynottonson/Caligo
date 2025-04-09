@@ -8,29 +8,27 @@ import Image from 'next/image';
 export default function ProfilePage() {
   const [username, setUsername] = useState('');
   const [bio, setBio] = useState('');
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(null); 
-  const [loading, setLoading] = useState(true); 
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
       setLoading(true); 
 
-      const {
-        data: { user },
-        error: userError,
-      } = await supabase.auth.getUser();
-
-      if (userError || !user) {
+      const { data: userData, error: userError } = await supabase.auth.getUser();
+      if (userError || !userData) {
         console.error('User not found or error:', userError);
         setLoading(false);
         return;
       }
 
+      const user = userData.user; 
+
       const { data: profileData, error: profileError } = await supabase
         .from('profiles')
         .select('username, bio, avatar_url')
-        .eq('id', user.id)
+        .eq('id', user.id) 
         .single();
 
       if (profileError) {
@@ -39,6 +37,7 @@ export default function ProfilePage() {
         return;
       }
 
+      // Set the fetched data in the state
       setUsername(profileData?.username || '');
       setBio(profileData?.bio || '');
       setAvatarUrl(profileData?.avatar_url || null); 
@@ -56,18 +55,18 @@ export default function ProfilePage() {
       reader.onloadend = async () => {
         setAvatarUrl(reader.result as string); 
 
-        // Get the current user
         const { data: userData, error: userError } = await supabase.auth.getUser();
         if (userError || !userData) {
           console.error('User not found or error:', userError);
           return;
         }
 
+        const user = userData.user;
         const fileExt = selectedFile.name.split('.').pop();
-        const filePath = `public/${userData.id}/profile.${fileExt}`;
+        const filePath = `public/${user.id}/profile.${fileExt}`;
 
         const { error: uploadError } = await supabase.storage
-          .from('profile-photos') // Upload to the 'profile-photos' bucket
+          .from('profile-photos') 
           .upload(filePath, selectedFile, { upsert: true });
 
         if (uploadError) {
@@ -84,6 +83,7 @@ export default function ProfilePage() {
           return;
         }
 
+        // Set the URL to the avatarUrl state
         setAvatarUrl(data.publicUrl);
       };
       reader.readAsDataURL(selectedFile);
@@ -91,23 +91,22 @@ export default function ProfilePage() {
   };
 
   const handleSave = async () => {
-    const {
-      data: { user },
-      error: userError,
-    } = await supabase.auth.getUser();
+    const { data: userData, error: userError } = await supabase.auth.getUser();
 
-    if (userError || !user) {
+    if (userError || !userData) {
       console.error('User not found or error:', userError);
       return;
     }
 
+    const user = userData.user;
+
     const { error: updateError } = await supabase
       .from('profiles')
       .upsert({
-        id: user.id,
+        id: user.id, 
         username,
         bio,
-        avatar_url: avatarUrl, // Store the avatar_url here
+        avatar_url: avatarUrl, 
       });
 
     if (updateError) {
@@ -176,8 +175,8 @@ export default function ProfilePage() {
         </label>
       </div>
       <div style={{ display: 'flex', gap: '1rem' }}>
-        <button onClick={handleSave}>SAVE</button>
-        <button onClick={() => router.push('/first')}>NO SAVE</button>
+        <button onClick={handleSave}>Save Profile</button>
+        <button onClick={() => router.push('/first')}>Cancel</button>
       </div>
     </div>
   );
