@@ -9,12 +9,12 @@ export default function ProfilePage() {
   const [bio, setBio] = useState('');
   const [profilePhoto, setProfilePhoto] = useState<File | null>(null);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null); 
-  const [loading, setLoading] = useState(true); // loading
+  const [loading, setLoading] = useState(true); 
   const router = useRouter();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-      setLoading(true); // for loading also
+      setLoading(true); 
 
       const {
         data: { user },
@@ -27,7 +27,7 @@ export default function ProfilePage() {
         return;
       }
 
-     // get profile data from supabase 
+      // Fetch the profile data from Supabase
       const { data: profileData, error: profileError } = await supabase
         .from('profiles')
         .select('username, bio, avatar_url')
@@ -40,7 +40,9 @@ export default function ProfilePage() {
         return;
       }
 
-      console.log('Fetched Avatar URL:', profileData?.avatar_url); 
+      console.log('Fetched Avatar URL:', profileData?.avatar_url);
+
+      // Set the fetched data in the state
       setUsername(profileData?.username || '');
       setBio(profileData?.bio || '');
       setAvatarUrl(profileData?.avatar_url || null);
@@ -52,7 +54,15 @@ export default function ProfilePage() {
 
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setProfilePhoto(e.target.files[0]);
+      const selectedFile = e.target.files[0];
+      setProfilePhoto(selectedFile);
+
+      // Immediately set the new avatar image for the UI preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setAvatarUrl(reader.result as string); 
+      };
+      reader.readAsDataURL(selectedFile);
     }
   };
 
@@ -170,8 +180,8 @@ export default function ProfilePage() {
         </label>
       </div>
       <div style={{ display: 'flex', gap: '1rem' }}>
-        <button onClick={handleSave}>KEEP DAT</button>
-        <button onClick={() => router.push('/first')}>NEVER MIND.</button>
+        <button onClick={handleSave}>SAVE DAT</button>
+        <button onClick={() => router.push('/first')}>NO SAVE DAT</button>
       </div>
     </div>
   );
