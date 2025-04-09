@@ -8,11 +8,14 @@ export default function ProfilePage() {
   const [username, setUsername] = useState('');
   const [bio, setBio] = useState('');
   const [profilePhoto, setProfilePhoto] = useState<File | null>(null);
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(null); // Store the avatar URL
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null); 
+  const [loading, setLoading] = useState(true); 
   const router = useRouter();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
+      setLoading(true); 
+
       const {
         data: { user },
         error: userError,
@@ -20,6 +23,7 @@ export default function ProfilePage() {
 
       if (userError || !user) {
         console.error('User not found or error:', userError);
+        setLoading(false);
         return;
       }
 
@@ -32,6 +36,7 @@ export default function ProfilePage() {
 
       if (profileError) {
         console.error('Error fetching profile:', profileError);
+        setLoading(false);
         return;
       }
 
@@ -39,10 +44,11 @@ export default function ProfilePage() {
       setUsername(profileData?.username || '');
       setBio(profileData?.bio || '');
       setAvatarUrl(profileData?.avatar_url || null);
+      setLoading(false); 
     };
 
     fetchUserProfile();
-  }, []); // Only run this once when the component mounts
+  }, []);
 
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -61,7 +67,7 @@ export default function ProfilePage() {
       return;
     }
 
-    let photoUrl = avatarUrl; // Keep the existing photo URL if no new photo is selected
+    let photoUrl = avatarUrl; 
 
     if (profilePhoto) {
       const fileExt = profilePhoto.name.split('.').pop();
@@ -97,6 +103,11 @@ export default function ProfilePage() {
       router.push('/first');
     }
   };
+
+ // spin
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
