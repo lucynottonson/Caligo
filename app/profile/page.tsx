@@ -9,7 +9,7 @@ export default function ProfilePage() {
   const [bio, setBio] = useState('');
   const [profilePhoto, setProfilePhoto] = useState<File | null>(null);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null); 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); 
   const router = useRouter();
 
   useEffect(() => {
@@ -27,6 +27,7 @@ export default function ProfilePage() {
         return;
       }
 
+      // Fetch the profile data from Supabase
       const { data: profileData, error: profileError } = await supabase
         .from('profiles')
         .select('username, bio, avatar_url')
@@ -109,24 +110,36 @@ export default function ProfilePage() {
 
   return (
     <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
-      <h1>Profile</h1>
-      <div style={{ marginBottom: '1rem' }}>
+      <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+        {avatarUrl ? (
+          <img
+            src={avatarUrl}
+            alt="Profile"
+            style={{
+              width: '200px',
+              height: '200px',
+              borderRadius: '50%',
+              objectFit: 'cover',
+              marginBottom: '1rem',
+            }}
+          />
+        ) : (
+          <div
+            style={{
+              width: '200px',
+              height: '200px',
+              borderRadius: '50%',
+              backgroundColor: '#ccc',
+              marginBottom: '1rem',
+            }}
+          />
+        )}
         <label>
           Profile Photo:
           <input type="file" accept="image/*" onChange={handlePhotoChange} />
         </label>
-        {profilePhoto && <p>Selected: {profilePhoto.name}</p>}
-        {avatarUrl && !profilePhoto && (
-          <div>
-            <p>Current Profile Photo:</p>
-            <img
-              src={avatarUrl}
-              alt="Current Profile"
-              style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-            />
-          </div>
-        )}
       </div>
+
       <div style={{ marginBottom: '1rem' }}>
         <label>
           Username:
