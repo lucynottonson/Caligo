@@ -1,7 +1,6 @@
-// components/ClientLogin.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
 
@@ -13,7 +12,7 @@ export default function ClientLogin() {
   const [error, setError] = useState<string | null>(null);
   const [isSignUp, setIsSignUp] = useState(false);
 
-  const handleAuth = async (e: React.FormEvent) => {
+  const handleAuth = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
@@ -21,7 +20,6 @@ export default function ClientLogin() {
     let authError = null;
     try {
       if (isSignUp) {
-        // Sign up then sign in immediately
         const { error: signUpError } = await supabase.auth.signUp({ email, password });
         if (!signUpError) {
           const { error: loginError } = await supabase.auth.signInWithPassword({ email, password });
