@@ -38,7 +38,7 @@ export default function ClientLogin() {
         router.push('/first');
       }
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
+      const errorMessage = err instanceof Error ? err.message : 'there is a problem';
       console.error('Auth error:', errorMessage);
       setError(errorMessage);
     }
@@ -46,12 +46,12 @@ export default function ClientLogin() {
   };
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen p-4 bg-white dark:bg-black text-black dark:text-white">
-      <h1 className="text-2xl font-bold mb-6">{isSignUp ? 'Create an Account' : 'Login'}</h1>
+    <main className="flex flex-col items-center justify-center min-h-screen p-4 bg-blue-50 dark:bg-black text-blue-900 dark:text-white">
+      <h1 className="text-2xl font-bold mb-6">{isSignUp ? 'join' : 'login'}</h1>
       <form onSubmit={handleAuth} className="flex flex-col gap-4 w-full max-w-sm">
         <input
           type="email"
-          placeholder="Email"
+          placeholder="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="p-2 border border-gray-300 rounded"
@@ -59,7 +59,7 @@ export default function ClientLogin() {
         />
         <input
           type="password"
-          placeholder="Password"
+          placeholder="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="p-2 border border-gray-300 rounded"
