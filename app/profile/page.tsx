@@ -25,7 +25,6 @@ export default function ProfilePage() {
 
       const user = userData.user; 
 
-      // Fetch the profile data from Supabase
       const { data: profileData, error: profileError } = await supabase
         .from('profiles')
         .select('username, bio, avatar_url')
@@ -55,7 +54,6 @@ export default function ProfilePage() {
       reader.onloadend = async () => {
         setAvatarUrl(reader.result as string); 
 
-        // Get the current user
         const { data: userData, error: userError } = await supabase.auth.getUser();
         if (userError || !userData) {
           console.error('User not found or error:', userError);
@@ -116,65 +114,76 @@ export default function ProfilePage() {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="w-16 h-16 border-4 border-t-4 border-blue-600 rounded-full animate-spin"></div>
+      </div>
+    );
   }
 
   return (
-    <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
-      <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-        {avatarUrl ? (
-          <Image
-            src={avatarUrl}
-            alt="Profile"
-            width={200}
-            height={200}
-            style={{
-              borderRadius: '50%',
-              objectFit: 'cover',
-              marginBottom: '1rem',
-            }}
-          />
-        ) : (
-          <div
-            style={{
-              width: '200px',
-              height: '200px',
-              borderRadius: '50%',
-              backgroundColor: '#ccc',
-              marginBottom: '1rem',
-            }}
-          />
-        )}
-        <label>
-          Profile Photo:
-          <input type="file" accept="image/*" onChange={handlePhotoChange} />
-        </label>
-      </div>
+    <div className="min-h-screen flex justify-center items-center bg-gray-100 p-6">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <div className="flex flex-col items-center">
+          {avatarUrl ? (
+            <Image
+              src={avatarUrl}
+              alt="Profile"
+              width={200}
+              height={200}
+              className="rounded-full mb-4"
+            />
+          ) : (
+            <div className="w-48 h-48 rounded-full bg-gray-300 mb-4 flex justify-center items-center">
+              <span className="text-2xl text-white">No Image</span>
+            </div>
+          )}
+          <label htmlFor="photo" className="text-blue-600 cursor-pointer hover:underline">
+            Change Profile Photo
+            <input 
+              id="photo" 
+              type="file" 
+              accept="image/*" 
+              onChange={handlePhotoChange}
+              className="hidden"
+            />
+          </label>
+        </div>
 
-      <div style={{ marginBottom: '1rem' }}>
-        <label>
-          Username:
+        <div className="mt-4">
+          <label className="block mb-2">Username</label>
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            style={{ display: 'block', marginTop: '0.5rem' }}
+            className="w-full p-3 border border-gray-300 rounded-lg mb-4"
           />
-        </label>
-      </div>
-      <div style={{ marginBottom: '1rem' }}>
-        <label>
-          Bio:
+        </div>
+
+        <div className="mt-4">
+          <label className="block mb-2">Bio</label>
           <textarea
             value={bio}
             onChange={(e) => setBio(e.target.value)}
-            style={{ display: 'block', marginTop: '0.5rem', width: '100%', height: '100px' }}
+            className="w-full p-3 border border-gray-300 rounded-lg mb-4"
+            rows={4}
           />
-        </label>
-      </div>
-      <div style={{ display: 'flex', gap: '1rem' }}>
-        <button onClick={handleSave}>Save Profile</button>
-        <button onClick={() => router.push('/first')}>Cancel</button>
+        </div>
+
+        <div className="flex justify-between gap-4">
+          <button 
+            onClick={handleSave}
+            className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 focus:outline-none"
+          >
+            Save Profile
+          </button>
+          <button 
+            onClick={() => router.push('/first')} 
+            className="w-full bg-gray-300 text-black p-3 rounded-lg hover:bg-gray-400 focus:outline-none"
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
   );
