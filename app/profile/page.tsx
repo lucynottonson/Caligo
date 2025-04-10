@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import Navbar from '@/components/navbar';
 
 export default function ProfilePage() {
   const [username, setUsername] = useState('');
@@ -122,6 +123,8 @@ export default function ProfilePage() {
   }
 
   return (
+    <div className="min-h-screen bg-[var(--background)] p-6">
+      <Navbar />
     <div className="min-h-screen flex justify-center items-center bg-background p-6">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <div className="flex flex-col items-center">
