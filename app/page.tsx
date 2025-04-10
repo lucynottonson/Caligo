@@ -17,10 +17,6 @@ export default async function LoginPage() {
         <h1 className="text-center text-4xl font-extrabold text-gray-800 mb-6">
           Welcome to Caligo
         </h1>
-        <p className="text-center text-lg text-gray-600 mb-4">
-          Log in or join to see everything else :)
-        </p>
-        
         <ClientLogin />
       </div>
     </div>
