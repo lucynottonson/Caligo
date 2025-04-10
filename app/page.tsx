@@ -8,26 +8,21 @@ export default async function LoginPage() {
   const { data: { session } } = await supabase.auth.getSession();
 
   if (session) {
-    redirect('/first');
+    redirect('/first'); // Redirect to the first page if the user is already logged in
   }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-center text-4xl font-extrabold text-gray-800 mb-6 font-[var(--font-chivo-mono)]">Welcome to Caligo</h1>
-        <p className="text-center text-lg text-gray-600 mb-4">Log in or join to see everything else :)</p>
+        <h1 className="text-center text-4xl font-extrabold text-gray-800 mb-6">
+          Welcome to Caligo
+        </h1>
+        <p className="text-center text-lg text-gray-600 mb-4">
+          Log in or join to see everything else :)
+        </p>
         
+        {/* Only render the ClientLogin component */}
         <ClientLogin />
-        
-        <div className="mt-6">
-          <button className="w-full bg-blue-600 text-white p-3 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4">
-            Login
-          </button>
-          
-          <button className="w-full bg-green-600 text-white p-3 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">
-            Signup
-          </button>
-        </div>
       </div>
     </div>
   );
