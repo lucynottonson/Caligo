@@ -9,7 +9,7 @@ export default defineConfig({
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-chivo-mono)', 'monospace'],  
+        sans: ['"Chivo Mono"', 'monospace'],  
       },
       fontWeight: {
         100: '100',
