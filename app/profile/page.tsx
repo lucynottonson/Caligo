@@ -116,7 +116,7 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-[var(--background)]">
+      <div className="flex justify-center items-center min-h-screen bg-blue-50">
         <div className="w-16 h-16 border-4 border-t-4 border-blue-600 rounded-full animate-spin"></div>
       </div>
     );
