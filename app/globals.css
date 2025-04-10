@@ -1,10 +1,9 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --font-rubik: 'Rubik', sans-serif;  
 }
 
 @media (prefers-color-scheme: dark) {
@@ -17,5 +16,24 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Rubik;
+  font-family: var(--font-rubik), sans-serif; 
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h1 {
+  font-weight: 800;  
+  font-family: var(--font-rubik), sans-serif;
+}
+
+p {
+  font-weight: 400;  
+  font-family: var(--font-rubik), sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
 }
