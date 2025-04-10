@@ -47,7 +47,7 @@ export default function ClientLogin() {
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen p-4 bg-blue-50 dark:bg-black text-blue-900 dark:text-blue-50">
-      <h1 className="text-2xl font-bold mb-6"></h1>
+      <h1 className="text-2xl font-bold mb-6">{isSignUp ? 'Join Caligo' : 'Login'}</h1>
       <form onSubmit={handleAuth} className="flex flex-col gap-4 w-full max-w-sm">
         <input
           type="email"
