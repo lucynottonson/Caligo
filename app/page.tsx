@@ -15,7 +15,7 @@ export default async function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
         <h1 className="text-center text-4xl font-extrabold text-gray-800 mb-6 font-[var(--font-chivo-mono)]">Welcome to Caligo</h1>
-        <p className="text-center text-lg text-gray-600 mb-4">Enter your credentials to access your account</p>
+        <p className="text-center text-lg text-gray-600 mb-4">Log in or join to see everything else :)</p>
         
         <ClientLogin />
         
