@@ -8,7 +8,7 @@ export default async function LoginPage() {
   const { data: { session } } = await supabase.auth.getSession();
 
   if (session) {
-    redirect('/first'); // Redirect to the first page if the user is already logged in
+    redirect('/first'); 
   }
 
   return (
@@ -21,7 +21,6 @@ export default async function LoginPage() {
           Log in or join to see everything else :)
         </p>
         
-        {/* Only render the ClientLogin component */}
         <ClientLogin />
       </div>
     </div>
