@@ -46,7 +46,7 @@ export default function ClientLogin() {
   };
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen p-4 bg-blue-50 dark:bg-black text-blue-900 dark:text-blue-50">
+    <main className="flex flex-col items-center justify-center min-h-screen p-4 bg-blue-50 dark:bg-black text-purple-600 dark:text-blue-50">
       <h1 className="text-2xl font-bold mb-6">{isSignUp ? 'Join Caligo' : 'Login'}</h1>
       <form onSubmit={handleAuth} className="flex flex-col gap-4 w-full max-w-sm">
         <input
@@ -54,7 +54,7 @@ export default function ClientLogin() {
           placeholder="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="p-2 border border-gray-300 rounded"
+          className="p-2 border border-blue-50 rounded"
           required
         />
         <input
@@ -62,7 +62,7 @@ export default function ClientLogin() {
           placeholder="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="p-2 border border-gray-300 rounded"
+          className="p-2 border border-blue-50 rounded"
           required
         />
         <button
