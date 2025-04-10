@@ -14,7 +14,7 @@ export default function Navbar() {
 
   return (
     <nav className="flex gap-6 p-4 bg-blue-50">
-      <Link href="/" className={getLinkClasses('/')}>
+      <Link href="/first" className={getLinkClasses('/first')}>
         Home
       </Link>
       <Link href="/profile" className={getLinkClasses('/profile')}>
@@ -22,6 +22,9 @@ export default function Navbar() {
       </Link>
       <Link href="/users" className={getLinkClasses('/users')}>
         Friends
+      </Link>
+        <Link href="/" className={getLinkClasses('/')}>
+        Logout
       </Link>
     </nav>
   );
