@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import Navbar from '@/components/navbar';
+import Navbar from '@/components/navbar'; 
 
 export default function ProfilePage() {
   const [username, setUsername] = useState('');
@@ -116,7 +116,7 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-background">
+      <div className="flex justify-center items-center min-h-screen bg-[var(--background)]">
         <div className="w-16 h-16 border-4 border-t-4 border-blue-600 rounded-full animate-spin"></div>
       </div>
     );
@@ -125,67 +125,68 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-[var(--background)] p-6">
       <Navbar />
-    <div className="min-h-screen flex justify-center items-center bg-background p-6">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <div className="flex flex-col items-center">
-          {avatarUrl ? (
-            <Image
-              src={avatarUrl}
-              alt="Profile"
-              width={200}
-              height={200}
-              className="rounded-full mb-4"
-            />
-          ) : (
-            <div className="w-48 h-48 rounded-full bg-gray-300 mb-4 flex justify-center items-center">
-              <span className="text-2xl text-white">No Image</span>
-            </div>
-          )}
-          <label htmlFor="photo" className="text-blue-600 cursor-pointer hover:underline">
-            Change Profile Photo
+      <div className="flex justify-center items-center p-6">
+        <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+          <div className="flex flex-col items-center">
+            {avatarUrl ? (
+              <Image
+                src={avatarUrl}
+                alt="Profile"
+                width={200}
+                height={200}
+                className="rounded-full mb-4"
+              />
+            ) : (
+              <div className="w-48 h-48 rounded-full bg-gray-300 mb-4 flex justify-center items-center">
+                <span className="text-2xl text-white">No Image</span>
+              </div>
+            )}
+            <label htmlFor="photo" className="text-blue-600 cursor-pointer hover:underline">
+              Change Profile Photo
+              <input
+                id="photo"
+                type="file"
+                accept="image/*"
+                onChange={handlePhotoChange}
+                className="hidden"
+              />
+            </label>
+          </div>
+
+          <div className="mt-4">
+            <label className="block mb-2">Username</label>
             <input
-              id="photo"
-              type="file"
-              accept="image/*"
-              onChange={handlePhotoChange}
-              className="hidden"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full p-3 border border-gray-300 rounded-lg mb-4"
             />
-          </label>
-        </div>
+          </div>
 
-        <div className="mt-4">
-          <label className="block mb-2">Username</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg mb-4"
-          />
-        </div>
+          <div className="mt-4">
+            <label className="block mb-2">Bio</label>
+            <textarea
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
+              className="w-full p-3 border border-gray-300 rounded-lg mb-4"
+              rows={4}
+            />
+          </div>
 
-        <div className="mt-4">
-          <label className="block mb-2">Bio</label>
-          <textarea
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg mb-4"
-            rows={4}
-          />
-        </div>
-
-        <div className="flex justify-between gap-4">
-          <button
-            onClick={handleSave}
-            className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 focus:outline-none"
-          >
-            Save Profile
-          </button>
-          <button
-            onClick={() => router.push('/first')}
-            className="w-full bg-gray-300 text-black p-3 rounded-lg hover:bg-gray-400 focus:outline-none"
-          >
-            Cancel
-          </button>
+          <div className="flex justify-between gap-4">
+            <button
+              onClick={handleSave}
+              className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 focus:outline-none"
+            >
+              Save Profile
+            </button>
+            <button
+              onClick={() => router.push('/first')}
+              className="w-full bg-gray-300 text-black p-3 rounded-lg hover:bg-gray-400 focus:outline-none"
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       </div>
     </div>
