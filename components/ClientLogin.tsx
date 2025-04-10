@@ -46,7 +46,7 @@ export default function ClientLogin() {
   };
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen p-4 bg-blue-50 dark:bg-black text-blue-900 dark:text-white">
+    <main className="flex flex-col items-center justify-center min-h-screen p-4 bg-blue-50 dark:bg-black text-blue-900 dark:text-blue-50">
       <h1 className="text-2xl font-bold mb-6">{isSignUp ? 'join' : 'login'}</h1>
       <form onSubmit={handleAuth} className="flex flex-col gap-4 w-full max-w-sm">
         <input
@@ -67,7 +67,7 @@ export default function ClientLogin() {
         />
         <button
           type="submit"
-          className="bg-purple-600 text-white py-2 rounded hover:bg-purple-700 transition"
+          className="bg-purple-600 text-blue-50 py-2 rounded hover:bg-purple-700 transition"
           disabled={loading}
         >
           {loading ? (isSignUp ? 'Creating account...' : 'Logging in...') : (isSignUp ? 'Sign Up' : 'Log In')}
