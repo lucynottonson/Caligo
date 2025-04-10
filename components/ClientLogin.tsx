@@ -54,7 +54,7 @@ export default function ClientLogin() {
           placeholder="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="p-2 border border-blue-50 rounded"
+          className="p-2 border border-purple-600 rounded"
           required
         />
         <input
@@ -62,7 +62,7 @@ export default function ClientLogin() {
           placeholder="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="p-2 border border-blue-50 rounded"
+          className="p-2 border border-purple-600 rounded"
           required
         />
         <button
