@@ -25,7 +25,6 @@ export default function ProfilePage() {
 
       const user = userData.user; 
 
-      // Fetch the profile data from Supabase
       const { data: profileData, error: profileError } = await supabase
         .from('profiles')
         .select('username, bio, avatar_url')
@@ -55,7 +54,6 @@ export default function ProfilePage() {
       reader.onloadend = async () => {
         setAvatarUrl(reader.result as string); 
 
-        // Get the current user
         const { data: userData, error: userError } = await supabase.auth.getUser();
         if (userError || !userData) {
           console.error('User not found or error:', userError);
@@ -120,7 +118,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
+    <div style={{ padding: '2rem', fontFamily: 'rubik' }}>
       <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
         {avatarUrl ? (
           <Image
