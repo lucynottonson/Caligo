@@ -8,13 +8,13 @@ import Image from 'next/image';
 export default function ProfilePage() {
   const [username, setUsername] = useState('');
   const [bio, setBio] = useState('');
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(null); 
-  const [loading, setLoading] = useState(true); 
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-      setLoading(true); 
+      setLoading(true);
 
       const { data: userData, error: userError } = await supabase.auth.getUser();
       if (userError || !userData) {
@@ -23,7 +23,7 @@ export default function ProfilePage() {
         return;
       }
 
-      const user = userData.user; 
+      const user = userData.user;
 
       const { data: profileData, error: profileError } = await supabase
         .from('profiles')
@@ -39,12 +39,12 @@ export default function ProfilePage() {
 
       setUsername(profileData?.username || '');
       setBio(profileData?.bio || '');
-      setAvatarUrl(profileData?.avatar_url || null); 
-      setLoading(false); 
+      setAvatarUrl(profileData?.avatar_url || null);
+      setLoading(false);
     };
 
     fetchUserProfile();
-  }, []); 
+  }, []);
 
   const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -52,7 +52,7 @@ export default function ProfilePage() {
 
       const reader = new FileReader();
       reader.onloadend = async () => {
-        setAvatarUrl(reader.result as string); 
+        setAvatarUrl(reader.result as string);
 
         const { data: userData, error: userError } = await supabase.auth.getUser();
         if (userError || !userData) {
@@ -60,12 +60,12 @@ export default function ProfilePage() {
           return;
         }
 
-        const user = userData.user; 
+        const user = userData.user;
         const fileExt = selectedFile.name.split('.').pop();
         const filePath = `public/${user.id}/profile.${fileExt}`;
 
         const { error: uploadError } = await supabase.storage
-          .from('profile-photos') 
+          .from('profile-photos')
           .upload(filePath, selectedFile, { upsert: true });
 
         if (uploadError) {
@@ -82,7 +82,7 @@ export default function ProfilePage() {
 
         setAvatarUrl(data.publicUrl);
       };
-      reader.readAsDataURL(selectedFile); 
+      reader.readAsDataURL(selectedFile);
     }
   };
 
@@ -94,15 +94,15 @@ export default function ProfilePage() {
       return;
     }
 
-    const user = userData.user; 
+    const user = userData.user;
 
     const { error: updateError } = await supabase
       .from('profiles')
       .upsert({
-        id: user.id, 
+        id: user.id,
         username,
         bio,
-        avatar_url: avatarUrl, 
+        avatar_url: avatarUrl,
       });
 
     if (updateError) {
@@ -115,14 +115,14 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
+      <div className="flex justify-center items-center min-h-screen bg-background">
         <div className="w-16 h-16 border-4 border-t-4 border-blue-600 rounded-full animate-spin"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gray-100 p-6">
+    <div className="min-h-screen flex justify-center items-center bg-background p-6">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <div className="flex flex-col items-center">
           {avatarUrl ? (
@@ -140,10 +140,10 @@ export default function ProfilePage() {
           )}
           <label htmlFor="photo" className="text-blue-600 cursor-pointer hover:underline">
             Change Profile Photo
-            <input 
-              id="photo" 
-              type="file" 
-              accept="image/*" 
+            <input
+              id="photo"
+              type="file"
+              accept="image/*"
               onChange={handlePhotoChange}
               className="hidden"
             />
@@ -171,14 +171,14 @@ export default function ProfilePage() {
         </div>
 
         <div className="flex justify-between gap-4">
-          <button 
+          <button
             onClick={handleSave}
             className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 focus:outline-none"
           >
             Save Profile
           </button>
-          <button 
-            onClick={() => router.push('/first')} 
+          <button
+            onClick={() => router.push('/first')}
             className="w-full bg-gray-300 text-black p-3 rounded-lg hover:bg-gray-400 focus:outline-none"
           >
             Cancel
