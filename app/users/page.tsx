@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import Image from 'next/image';  
+import Navbar from '@/components/navbar';
 
 interface User {
   id: string;
@@ -58,6 +59,8 @@ export default function UsersPage() {
 
   return (
     <div>
+      <div className="min-h-screen bg-[var(--background)] p-6">
+      <Navbar />
       <h1>Friends</h1>
       <div style={styles.grid}>
         {users.map((user) => (
