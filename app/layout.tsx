@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Chivo_Mono } from "next/font/google";
+import { Rubik } from "next/font/google";
 import "./globals.css";
 
-const chivoMono = Chivo_Mono({
-  variable: "--font-chivo-mono", 
+const rubik = Rubik({
+  variable: "--font-rubik", 
   subsets: ["latin"],            
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"], 
+  weight: ["400","800"], 
 });
 
 export const metadata: Metadata = {
@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${chivoMono.variable} antialiased`}
+        className={`${rubik.variable} antialiased`}
       >
         {children}
       </body>
