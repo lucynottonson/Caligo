@@ -67,7 +67,7 @@ export default function ClientLogin() {
         />
         <button
           type="submit"
-          className="bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+          className="bg-purple-600 text-white py-2 rounded hover:bg-purple-700 transition"
           disabled={loading}
         >
           {loading ? (isSignUp ? 'Creating account...' : 'Logging in...') : (isSignUp ? 'Sign Up' : 'Log In')}
@@ -79,7 +79,7 @@ export default function ClientLogin() {
           setIsSignUp(!isSignUp);
           setError(null);
         }}
-        className="mt-4 text-blue-600 hover:underline"
+        className="mt-4 text-purple-600 hover:underline"
       >
         {isSignUp ? 'Already have an account? Log in' : 'Need an account? Sign up'}
       </button>
