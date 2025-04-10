@@ -8,13 +8,12 @@ export default async function LoginPage() {
   const { data: { session } } = await supabase.auth.getSession();
 
   if (session) {
-    redirect('/first'); 
+    redirect('/first');
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <ClientLogin />
-      </div>
-    </div> 
+    <main className="min-h-screen flex items-center justify-center bg-background">
+      <ClientLogin />
+    </main>
   );
 }
