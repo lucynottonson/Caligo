@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
+import Navbar from '@/components/navbar';
 
 export default function FirstPage() {
   const [loading, setLoading] = useState(true);
@@ -25,25 +26,18 @@ export default function FirstPage() {
     checkUser();
   }, [router]);
 
-  if (loading) {
-    return null;
+ if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="w-16 h-16 border-4 border-t-4 border-blue-600 rounded-full animate-spin"></div>
+      </div>
+    );
   }
 
   return (
-    <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
-      <nav style={{ display: 'flex', gap: '1rem', paddingBottom: '1rem' }}>
-        <a href="/first">Home</a>
-        <a href="/profile">Profile</a>
-        <a href="/settings">Settings</a>
-        <a href="/users">Friends</a>
-        <button onClick={async () => {
-          await supabase.auth.signOut();
-          router.replace('/');
-        }}>
-          Logout
-        </button>
-      </nav>
-      <h1>YOU ARE LOGGED IN</h1>
+    <div className="min-h-screen p-6" style={{ fontFamily: 'rubik' }}>
+      <Navbar />
+      <h1 className="text-center text-4xl font-bold mt-4">YOU ARE LOGGED IN</h1>
     </div>
   );
 }
