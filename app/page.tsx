@@ -12,7 +12,7 @@ export default async function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-[var(background)]">
+    <main className="min-h-screen flex items-center justify-center bg-blue-50">
       <ClientLogin />
     </main>
   );
