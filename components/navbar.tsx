@@ -23,6 +23,9 @@ export default function Navbar() {
       <Link href="/users" className={getLinkClasses('/users')}>
         Friends
       </Link>
+      <Link href="/activities" className={getLinkClasses('/activities')}>
+        Games
+      </Link>
         <Link href="/" className={getLinkClasses('/')}>
         Logout
       </Link>
