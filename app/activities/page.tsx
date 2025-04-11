@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import Navbar from '@/components/Navbar';
+import Navbar from '@/components/navbar';
 import { supabase } from '@/lib/supabaseClient';
 
 export default function ActivitiesPage() {
