@@ -1,1 +1,8 @@
+import type P5 from 'p5';
+
+const sketch = (p: P5) => {
+  // sketch implementation
+};
+
+<p className="mt-2 text-sm text-gray-600">Press &#39;G&#39; to end game and submit your score.</p>
 node_modules
