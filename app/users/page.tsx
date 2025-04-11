@@ -60,7 +60,7 @@ export default function UsersPage() {
   return (
     <div className="min-h-screen bg-[var(--background)] p-6">
       <Navbar />
-      <h1>Friends</h1>
+      <h1>You do not choose your friends, we are all friends!</h1>
       <div style={styles.grid}>
         {users.map((user) => (
           <div key={user.id} style={styles.card}>
